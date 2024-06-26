@@ -1,4 +1,4 @@
-package prm.pro2.fastnote
+package prm.pro2.fastnote.entity
 
 data class Note(
     val id: Int,

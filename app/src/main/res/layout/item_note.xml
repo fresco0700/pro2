@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:text="This is a sample note." />
+        tools:text="Note." />
 
     <TextView
         android:id="@+id/tvCity"

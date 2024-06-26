@@ -7,10 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import prm.pro2.fastnote.Note
-import prm.pro2.fastnote.R
+import prm.pro2.fastnote.entity.Note
 
-class NoteAdapter : ListAdapter<Note, NoteAdapter.NoteViewHolder>(NotesComparator()) {
+class NoteAdapter(private val onLongItemClick: (Note) -> Unit) : ListAdapter<Note, NoteAdapter.NoteViewHolder>(NotesComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder.create(parent)
@@ -19,6 +18,10 @@ class NoteAdapter : ListAdapter<Note, NoteAdapter.NoteViewHolder>(NotesComparato
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val current = getItem(position)
         holder.bind(current.author, current.text, current.city)
+        holder.itemView.setOnLongClickListener {
+            onLongItemClick(current)
+            true
+        }
     }
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

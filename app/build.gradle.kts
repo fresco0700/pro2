@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation ("com.squareup.moshi:moshi:1.12.0")
