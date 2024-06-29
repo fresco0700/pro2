@@ -53,7 +53,6 @@ class EditNoteActivity : AppCompatActivity() {
         if (noteId == null) return
 
         val note = mapOf("text" to updatedText)
-
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 api.updateNote(noteId, note)

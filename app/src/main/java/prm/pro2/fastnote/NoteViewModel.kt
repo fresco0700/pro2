@@ -1,5 +1,6 @@
 package prm.pro2.fastnote
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,7 +23,8 @@ class NoteViewModel : ViewModel() {
             try {
                 _notes.value = RetrofitInstance.api.getNotes()
             } catch (e: Exception) {
-                // Handle the error
+                Log.d("ERROR","Blad podczas refreshowania notatki")
+
             }
         }
     }
@@ -31,21 +33,11 @@ class NoteViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 RetrofitInstance.api.deleteNote(noteId)
-                refreshNotes() // Refresh the list of notes after deletion
+                refreshNotes()
             } catch (e: Exception) {
-                // Handle the error
+                Log.d("ERROR","Blad podczas usuwania notatki")
             }
         }
     }
 
-    fun updateNote(noteId: Int, noteText: String) {
-        viewModelScope.launch {
-            try {
-                RetrofitInstance.api.updateNote(noteId, mapOf("text" to noteText))
-                refreshNotes() // Refresh the list of notes after update
-            } catch (e: Exception) {
-                // Handle the error
-            }
-        }
-    }
 }
