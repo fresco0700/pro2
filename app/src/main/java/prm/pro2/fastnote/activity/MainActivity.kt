@@ -19,10 +19,6 @@ class MainActivity : AppCompatActivity() {
 
     private val noteViewModel: NoteViewModel by viewModels()
 
-    companion object {
-        const val EDIT_NOTE_REQUEST_CODE = 1
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -74,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             putExtra("note_text", note.text)
             putExtra("note_author", note.author)
         }
-        startActivityForResult(intent, EDIT_NOTE_REQUEST_CODE)
+        startActivityForResult(intent, 1)
     }
 
     private fun deleteNote(note: Note) {
@@ -84,8 +80,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == EDIT_NOTE_REQUEST_CODE && resultCode ==Activity.RESULT_OK) {
             noteViewModel.refreshNotes()
-        }
+
     }
 }
