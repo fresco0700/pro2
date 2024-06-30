@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -48,30 +49,23 @@ class AddNoteActivity : AppCompatActivity() {
     }
 
     private fun getLocationAndAddNote(noteText: String, authorText: String) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat
+            .checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
             != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            ActivityCompat
+                .requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
         } else {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-                        val coordinates = "${location.latitude},${location.longitude}"
-                        val city = getCityFromCoordinates(location.latitude, location.longitude)
-                        addNote(noteText, authorText, coordinates, city)
+                        val geocoder = Geocoder(this, Locale.getDefault())
+                        val values = geocoder.getFromLocation(location.latitude, location.longitude,1)
+                        val city = values!![0].locality ?: "Nienznae miasto"
+                        addNote(noteText, authorText, "${location.latitude},${location.longitude}", city)
                     } else {
                         Toast.makeText(this, "Pobranie lokalizacji nie powiodlo sie", Toast.LENGTH_SHORT).show()
                     }
                 }
-        }
-    }
-
-    private fun getCityFromCoordinates(latitude: Double, longitude: Double): String {
-        val geocoder = Geocoder(this, Locale.getDefault())
-        val addresses = geocoder.getFromLocation(latitude, longitude, 1)
-        return if (addresses != null && addresses.isNotEmpty()) {
-            addresses[0].locality ?: "Nieznane miasto"
-        } else {
-            "Nieznane miasto"
         }
     }
 
@@ -88,7 +82,7 @@ class AddNoteActivity : AppCompatActivity() {
                 api.addNote(note)
                 withContext(Dispatchers.Main) {
                     Toast.makeText(this@AddNoteActivity, "Notatka dodana pomyslnie", Toast.LENGTH_SHORT).show()
-                    backToMain()
+                    backToMain(findViewById(R.id.buttonBack))
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
@@ -98,22 +92,8 @@ class AddNoteActivity : AppCompatActivity() {
         }
     }
 
-    private fun backToMain() {
+    fun backToMain(view: View) {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 1) {
-            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                getLocationAndAddNote(
-                    findViewById<EditText>(R.id.editTextNote).text.toString(),
-                    findViewById<EditText>(R.id.editTextAuthor).text.toString()
-                )
-            } else {
-                Toast.makeText(this, "Uprawnienia do lokalizacji są wymagane", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 }

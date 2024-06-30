@@ -2,6 +2,7 @@ package prm.pro2.fastnote.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import prm.pro2.fastnote.R
 
@@ -10,7 +11,7 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
     }
-    private fun backToMain() {
+    fun backToMain(view: View) {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }

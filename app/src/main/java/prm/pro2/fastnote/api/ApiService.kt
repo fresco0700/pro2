@@ -19,12 +19,12 @@ interface ApiService {
 
     @DELETE("api/notes/delete/{id}")
     suspend fun deleteNote(
-        @Path("id") id: Int // Zmieniono na Int
+        @Path("id") id: Int
     )
 
     @PUT("api/notes/edit/{id}")
     suspend fun updateNote(
-        @Path("id") id: Int, // Zmieniono na Int
+        @Path("id") id: Int,
         @Body note: Map<String, String>
     )
 }

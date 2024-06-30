@@ -20,8 +20,7 @@ class NoteAdapter(private val onLongItemClick: (Note) -> Unit) : ListAdapter<Not
         holder.bind(current.author, current.text, current.city)
         holder.itemView.setOnLongClickListener {
             onLongItemClick(current)
-            true
-        }
+            true }
     }
 
     class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -37,11 +36,12 @@ class NoteAdapter(private val onLongItemClick: (Note) -> Unit) : ListAdapter<Not
 
         companion object {
             fun create(parent: ViewGroup): NoteViewHolder {
-                val view: View = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_note, parent, false)
+                val inflater = LayoutInflater.from(parent.context)
+                val view = inflater.inflate(R.layout.item_note, parent, false)
                 return NoteViewHolder(view)
             }
         }
+
     }
 
     class NotesComparator : DiffUtil.ItemCallback<Note>() {

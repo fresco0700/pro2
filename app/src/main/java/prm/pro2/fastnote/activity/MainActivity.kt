@@ -32,19 +32,12 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        noteViewModel.notes.observe(this) { notes ->
-            notes?.let { adapter.submitList(it) }
-        }
+        noteViewModel.notes.observe(this)
+        { notes -> notes?.let { adapter.submitList(it) } }
 
-        findViewById<Button>(R.id.buttonMap).setOnClickListener {
-            openMap()
-        }
-        findViewById<Button>(R.id.buttonAdd).setOnClickListener {
-            openAddForm()
-        }
-        findViewById<Button>(R.id.buttonSettings).setOnClickListener {
-            openSettings()
-        }
+        findViewById<Button>(R.id.buttonMap).setOnClickListener { openMap() }
+        findViewById<Button>(R.id.buttonAdd).setOnClickListener { openAddForm() }
+        findViewById<Button>(R.id.buttonSettings).setOnClickListener { openSettings() }
     }
 
     private fun openMap() {
@@ -63,9 +56,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showNoteOptionsDialog(note: Note) {
-        val options = arrayOf("Edytuj notatkę", "Usuń notatkę")
+        val options = arrayOf("Edytuj notatke", "Usun notatke")
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Wybierz opcję")
+        builder.setTitle("Wybierz opcje")
         builder.setItems(options) { dialog, which ->
             when (which) {
                 0 -> editNote(note)
@@ -91,7 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == EDIT_NOTE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == EDIT_NOTE_REQUEST_CODE && resultCode ==Activity.RESULT_OK) {
             noteViewModel.refreshNotes()
         }
     }
